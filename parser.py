@@ -86,6 +86,7 @@ def save(projects, path):
 
 def print_progress(iteration, total, prefix='', suffix='', decimals=1, bar_length=60):
     """
+    def by Greenstick from SO: http://stackoverflow.com/a/34325723/7345364
     Call in a loop to create terminal progress bar
     @params:
         iteration   - Required  : current iteration (Int)
@@ -122,7 +123,7 @@ def main():
 
     projects = remove_taken(projects)
 
-    #for project in projects:
+    # for project in projects:
     #    print(project)
 
     path = os.getcwd()
