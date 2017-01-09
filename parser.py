@@ -1,4 +1,4 @@
-mport sys
+import sys
 import csv
 import os
 
@@ -6,7 +6,7 @@ import urllib.request
 from bs4 import BeautifulSoup  # Библиотека для парсинга.
 # import re #  Импортируем библиотеку работы с регулярными выражениями
 
-url_addr = 'https://www.weblancer.net/jobs/?page=165'
+url_addr = 'https://www.weblancer.net/jobs/'
 
 
 def get_html(url):
@@ -15,10 +15,17 @@ def get_html(url):
     return response.read()
 
 
+def get_last_page(html):
+    # Ищет последнюю страницу в списке работ.
+    soup = BeautifulSoup(html, 'html.parser')
+    pagination = soup.find('ul', class_='pagination')  #[-1].get('href')
+    last_page_url = pagination.find_all('a')[-1].get('href')
+    return last_page_url
+
 def get_page_count(html):
     soup = BeautifulSoup(html, "html.parser")
     pagination = soup.find('ul', class_='pagination')
-    return int(pagination.find_all('a')[-3].text)
+    return int(pagination.find_all('a')[-1].text)
 
 
 def parse(html):
@@ -90,7 +97,8 @@ def print_progress(iteration, total, prefix='', suffix='', decimals=1, bar_lengt
 
 
 def main():
-    page_count = get_page_count(get_html(url_addr))
+    last_page = url_addr + get_last_page(get_html(url_addr))[5:]
+    page_count = get_page_count(get_html(last_page))
 
     print('Всего найдено страниц %d' % page_count)
 
