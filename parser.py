@@ -115,7 +115,7 @@ def main():
 
     projects = []
 
-    for page in range(1, 3 + 1):
+    for page in range(1, page_count + 1):
         # print('Парсинг %d%%' % (page / page_count * 100))
         print_progress(page, page_count, 'Парсинг')
         projects.extend(parse(get_html(url_addr + '?page=%d' % page)))
