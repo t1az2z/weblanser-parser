@@ -57,6 +57,17 @@ def parse(html):
     return projects
 
 
+def remove_taken(projects):
+    # Функция удаления занятых работ.
+    projects_filtered = []
+    for i in range(len(projects)):
+        if projects[i]['application'] == 'указан исполнитель':
+            pass
+        else:
+            projects_filtered.append(projects[i])
+    return projects_filtered
+
+
 def save(projects, path):
     with open(path, 'w') as csv_file:
         writer = csv.writer(csv_file)
@@ -104,13 +115,16 @@ def main():
 
     projects = []
 
-    for page in range(1, page_count + 1):
+    for page in range(1, 3 + 1):
         # print('Парсинг %d%%' % (page / page_count * 100))
         print_progress(page, page_count, 'Парсинг')
         projects.extend(parse(get_html(url_addr + '?page=%d' % page)))
 
-    # for project in projects:
-    #     print(project)
+    projects = remove_taken(projects)
+
+    #for project in projects:
+    #    print(project)
+
     path = os.getcwd()
     print('Результаты парсинга сохранены в %s\parsing.csv' % path)
     save(projects, 'parsing.csv')
